@@ -1,0 +1,187 @@
+<?php
+session_start();
+
+// 1. Si existe en sesión → usarlo
+if (isset($_SESSION["id_usuario"])) {
+    $id_usuario = $_SESSION["id_usuario"];
+}
+
+// 2. Si no hay sesión pero hay cookie → recuperar
+elseif (isset($_COOKIE["id_usuario"])) {
+    $id_usuario = $_COOKIE["id_usuario"];
+    $_SESSION["id_usuario"] = $id_usuario;
+}
+
+// 3. Si no existe nada → crear uno NUEVO
+else {
+    $id_usuario = "user-" . uniqid();
+
+    $_SESSION["id_usuario"] = $id_usuario;
+
+    // 🔥 cookie por 1 año (MUY IMPORTANTE)
+    setcookie("id_usuario", $id_usuario, time() + (8 * 60 * 60), "/");
+}
+
+echo "ID: " . $id_usuario;
+?>
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+</head>
+
+<body style="margin:0; overflow:hidden;">
+
+  <!-- BOTÓN FOTO -->
+  <button onclick="tomarFoto()" 
+    style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
+    padding:15px 20px; font-size:16px; z-index:999; border-radius:10px;
+    background:#000; color:#fff;">
+    📸 Tomar Foto
+  </button>
+
+
+
+  <!-- ESCENA AR -->
+  <a-scene embedded arjs>
+
+    <a-marker id="m1" type="pattern" url="marcador.patt">
+      <a-entity position="0 0 0" rotation="280 0 0" scale="1 1 1"
+        gltf-model="regalo.glb" animation-mixer>
+      </a-entity>
+    </a-marker>
+
+    <a-marker id="m2" type="pattern" url="pattern-charizard.patt">
+      <a-entity position="0 0 0" rotation="240 0 0" scale="0.5 0.5 0.5"
+        gltf-model="charizard.glb" animation-mixer>
+      </a-entity>
+    </a-marker>
+
+    <a-marker id="m3" type="pattern" url="pattern-Imper1.patt">
+      <a-entity position="0 0 0" rotation="200 260 120" scale="5 5 5"
+        gltf-model="majin_boo.glb" animation-mixer>
+      </a-entity>
+    </a-marker>
+
+    <a-marker id="m4" type="pattern" url="pattern-Imper2.patt">
+      <a-entity position="0.10 0.10 0.10" rotation="220 0 0" scale="0.02 0.02 0.02"
+        gltf-model="goku.glb" animation-mixer>
+      </a-entity>
+    </a-marker>
+
+    <a-marker id="m5" type="pattern" url="pattern-Natu1.patt">
+      <a-entity position="0 0 0" rotation="280 0 0" scale="0.5 0.5 0.5"
+        gltf-model="mario.glb" animation-mixer>
+      </a-entity>
+    </a-marker>
+
+    <a-marker id="m6" type="pattern" url="pattern-Natu2.patt">
+      <a-entity position="0 0 0" rotation="280 0 0" scale="0.09 0.09 0.09"
+        gltf-model="yoshi.glb" animation-mixer>
+      </a-entity>
+    </a-marker>
+
+    <a-marker id="m7" type="pattern" url="pattern-Redes1.patt">
+      <a-entity position="0 0 0" rotation="280 0 0" scale="0.9 0.9 0.9"
+        gltf-model="dragon.glb" animation-mixer>
+      </a-entity>
+    </a-marker>
+
+    <a-marker id="m8" type="pattern" url="pattern-Redes2.patt">
+      <a-entity position="0 0 0" rotation="180 280 70" scale="1 1 1"
+        gltf-model="one_piece.glb" animation-mixer>
+      </a-entity>
+    </a-marker>
+
+    <!-- VIDEOS -->
+  <a-assets>
+    <video id="vid1" src="barco.mp4" preload="auto" loop muted playsinline></video>
+    <video id="vid2" src="focos.mp4" preload="auto" loop muted playsinline></video>
+    <video id="vid3" src="peces.mp4" preload="auto" loop muted playsinline></video>
+    <video id="vid4" src="barquito.mp4" preload="auto" loop muted playsinline></video>
+  </a-assets>
+
+  <!-- MARCADOR 1 -->
+  <a-marker type="pattern" url="barco.patt">
+    <a-video src="#vid1" width="8" height="4.5" position="0 0 0" rotation="-90 0 0"></a-video>
+  </a-marker>
+
+  <!-- MARCADOR 2 -->
+  <a-marker type="pattern" url="focos.patt">
+    <a-video src="#vid2" width="8" height="4.5" position="0 0 0" rotation="-90 0 0"></a-video>
+  </a-marker>
+
+  <!-- MARCADOR 3 -->
+  <a-marker type="pattern" url="peces.patt">
+    <a-video src="#vid3" width="8" height="4.5" position="0 0 0" rotation="-90 0 0"></a-video>
+  </a-marker>
+
+  <!-- MARCADOR 4 -->
+  <a-marker type="pattern" url="barquito.patt">
+    <a-video src="#vid4" width="8" height="4.5" position="0 0 0" rotation="-90 0 0"></a-video>
+  </a-marker>
+
+    <a-entity camera></a-entity>
+  </a-scene>
+
+<script>
+// FOTO
+function tomarFoto() {
+  const scene = document.querySelector("a-scene");
+  const video = document.querySelector("video");
+  const renderer = scene.renderer;
+
+  renderer.render(scene.object3D, scene.camera);
+  const canvasAframe = renderer.domElement;
+
+  if (!video || video.videoWidth === 0) {
+    alert("Espera a que cargue la cámara");
+    return;
+  }
+
+  const canvasFinal = document.createElement("canvas");
+  const ctx = canvasFinal.getContext("2d");
+
+  canvasFinal.width = video.videoWidth;
+  canvasFinal.height = video.videoHeight;
+
+  ctx.drawImage(video, 0, 0, canvasFinal.width, canvasFinal.height);
+  ctx.drawImage(canvasAframe, 0, 0, canvasFinal.width, canvasFinal.height);
+
+  const link = document.createElement("a");
+  link.href = canvasFinal.toDataURL("image/png");
+  link.download = "foto-ar.png";
+  link.click();
+}
+
+
+</script>
+<script>
+document.querySelectorAll("a-marker").forEach(marker => {
+
+  marker.addEventListener("markerFound", () => {
+    const videoEl = marker.querySelector("a-video");
+    const videoSrc = videoEl.getAttribute("src");
+    const video = document.querySelector(videoSrc);
+    if (video) video.play();
+  });
+
+  marker.addEventListener("markerLost", () => {
+    const videoEl = marker.querySelector("a-video");
+    const videoSrc = videoEl.getAttribute("src");
+    const video = document.querySelector(videoSrc);
+    if (video) video.pause();
+  });
+
+});
+</script>
+</body>
+</html>
+
