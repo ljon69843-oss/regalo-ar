@@ -1,158 +1,1192 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="utf-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
-  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/aframe-extras@6.1.1/dist/aframe-extras.min.js"></script>
+<title>Ramo de Rosas Eternas 🌹</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    background:
+        radial-gradient(circle at center top, #3b1727 0%, #180a12 45%, #080409 100%);
+    color: white;
+}
+
+/* Fondo */
+
+.background {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: white;
+    border-radius: 50%;
+    opacity: .7;
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+.star:nth-child(1) { left: 10%; top: 15%; animation-delay: .2s; }
+.star:nth-child(2) { left: 20%; top: 40%; animation-delay: 1s; }
+.star:nth-child(3) { left: 35%; top: 12%; animation-delay: 1.7s; }
+.star:nth-child(4) { left: 50%; top: 25%; animation-delay: .5s; }
+.star:nth-child(5) { left: 70%; top: 10%; animation-delay: 2s; }
+.star:nth-child(6) { left: 82%; top: 32%; animation-delay: 1.2s; }
+.star:nth-child(7) { left: 90%; top: 15%; animation-delay: .8s; }
+.star:nth-child(8) { left: 15%; top: 70%; animation-delay: 1.5s; }
+.star:nth-child(9) { left: 78%; top: 65%; animation-delay: .3s; }
+.star:nth-child(10) { left: 92%; top: 80%; animation-delay: 2.2s; }
+
+@keyframes twinkle {
+    0%, 100% {
+        transform: scale(.5);
+        opacity: .2;
+    }
+
+    50% {
+        transform: scale(1.5);
+        opacity: 1;
+    }
+}
+
+/* Contenedor */
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Título */
+
+.title {
+    position: absolute;
+    top: 35px;
+    text-align: center;
+    z-index: 20;
+    animation: titleAppear 2s ease forwards;
+}
+
+.title h1 {
+    font-size: clamp(28px, 5vw, 52px);
+    font-weight: normal;
+    letter-spacing: 3px;
+    text-shadow:
+        0 0 10px rgba(255, 120, 150, .8),
+        0 0 30px rgba(255, 50, 100, .4);
+}
+
+.title p {
+    margin-top: 8px;
+    font-size: 18px;
+    color: #ffd7df;
+    font-style: italic;
+}
+
+@keyframes titleAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ramo */
+
+.bouquet {
+    position: relative;
+    width: min(650px, 95vw);
+    height: 650px;
+    margin-top: 70px;
+}
+
+/* Tallos */
+
+.stem {
+    position: absolute;
+    width: 9px;
+    height: 390px;
+    background: linear-gradient(
+        to right,
+        #123c20,
+        #2e7438,
+        #164f28
+    );
+    border-radius: 100%;
+    left: 50%;
+    top: 155px;
+    transform-origin: bottom center;
+    box-shadow: 0 0 8px rgba(40, 150, 70, .3);
+}
+
+.stem::after {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 100%;
+    left: 2px;
+    background: rgba(150, 255, 160, .15);
+    border-radius: 50%;
+}
+
+/* Diferentes posiciones */
+
+.stem1 {
+    transform: rotate(-30deg);
+    height: 410px;
+    margin-left: -5px;
+}
+
+.stem2 {
+    transform: rotate(-20deg);
+    height: 425px;
+}
+
+.stem3 {
+    transform: rotate(-10deg);
+    height: 440px;
+}
+
+.stem4 {
+    transform: rotate(0deg);
+    height: 450px;
+}
+
+.stem5 {
+    transform: rotate(10deg);
+    height: 440px;
+}
+
+.stem6 {
+    transform: rotate(20deg);
+    height: 425px;
+}
+
+.stem7 {
+    transform: rotate(30deg);
+    height: 410px;
+}
+
+/* Hojas */
+
+.leaf {
+    position: absolute;
+    width: 55px;
+    height: 28px;
+    background: linear-gradient(
+        135deg,
+        #4b984f,
+        #174b27
+    );
+    border-radius: 100% 0 100% 0;
+    transform-origin: bottom left;
+    box-shadow: 0 3px 7px rgba(0,0,0,.5);
+}
+
+.leaf::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 90%;
+    background: rgba(200,255,190,.25);
+    left: 50%;
+    top: 5%;
+    transform: rotate(-30deg);
+}
+
+/* Posiciones de hojas */
+
+.leaf1 {
+    left: 25%;
+    top: 390px;
+    transform: rotate(-25deg);
+}
+
+.leaf2 {
+    left: 35%;
+    top: 430px;
+    transform: scaleX(-1) rotate(-25deg);
+}
+
+.leaf3 {
+    left: 45%;
+    top: 390px;
+    transform: rotate(-10deg);
+}
+
+.leaf4 {
+    left: 55%;
+    top: 420px;
+    transform: scaleX(-1) rotate(-20deg);
+}
+
+.leaf5 {
+    left: 65%;
+    top: 385px;
+    transform: rotate(-15deg);
+}
+
+.leaf6 {
+    left: 30%;
+    top: 475px;
+    transform: scaleX(-1) rotate(-15deg);
+}
+
+.leaf7 {
+    left: 60%;
+    top: 470px;
+    transform: rotate(-20deg);
+}
+
+/* ROSA */
+
+.rose {
+    position: absolute;
+    width: 130px;
+    height: 130px;
+    transform: translate(-50%, -50%);
+    animation: roseAppear 1.8s ease backwards;
+    z-index: 10;
+}
+
+.rose::before {
+    content: "";
+    position: absolute;
+    width: 45px;
+    height: 45px;
+    left: 42px;
+    top: 42px;
+    background: radial-gradient(
+        circle,
+        #3c000c,
+        #790016 60%,
+        #b30d31
+    );
+    border-radius: 50%;
+    box-shadow:
+        0 0 15px rgba(255, 30, 80, .45),
+        0 0 35px rgba(255, 30, 80, .2);
+    z-index: 8;
+}
+
+/* Pétalos */
+
+.petal {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 57px;
+    height: 75px;
+    background: linear-gradient(
+        135deg,
+        #ff5274 0%,
+        #c20e38 45%,
+        #650016 100%
+    );
+    border-radius: 65% 35% 65% 35%;
+    transform-origin: 0 100%;
+    box-shadow:
+        inset -5px -8px 10px rgba(40,0,10,.35),
+        0 3px 7px rgba(0,0,0,.4);
+}
+
+.p1 {
+    transform: translate(-50%, -75%) rotate(0deg);
+}
+
+.p2 {
+    transform: translate(-50%, -75%) rotate(60deg);
+}
+
+.p3 {
+    transform: translate(-50%, -75%) rotate(120deg);
+}
+
+.p4 {
+    transform: translate(-50%, -75%) rotate(180deg);
+}
+
+.p5 {
+    transform: translate(-50%, -75%) rotate(240deg);
+}
+
+.p6 {
+    transform: translate(-50%, -75%) rotate(300deg);
+}
+
+/* Segunda capa */
+
+.petal.inner {
+    width: 43px;
+    height: 58px;
+    background: linear-gradient(
+        135deg,
+        #ff6a85,
+        #b70832,
+        #47000f
+    );
+}
+
+.i1 {
+    transform: translate(-50%, -80%) rotate(30deg);
+}
+
+.i2 {
+    transform: translate(-50%, -80%) rotate(90deg);
+}
+
+.i3 {
+    transform: translate(-50%, -80%) rotate(150deg);
+}
+
+.i4 {
+    transform: translate(-50%, -80%) rotate(210deg);
+}
+
+.i5 {
+    transform: translate(-50%, -80%) rotate(270deg);
+}
+
+.i6 {
+    transform: translate(-50%, -80%) rotate(330deg);
+}
+
+/* Centro */
+
+.center {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #ff8397,
+            #9b0025 45%,
+            #32000a
+        );
+    z-index: 20;
+}
+
+/* Posición de las rosas */
+
+.r1 {
+    left: 23%;
+    top: 30%;
+    transform: translate(-50%, -50%) rotate(-10deg);
+    animation-delay: .2s;
+}
+
+.r2 {
+    left: 37%;
+    top: 20%;
+    transform: translate(-50%, -50%) rotate(10deg);
+    animation-delay: .5s;
+}
+
+.r3 {
+    left: 50%;
+    top: 16%;
+    transform: translate(-50%, -50%) rotate(-5deg);
+    animation-delay: .8s;
+}
+
+.r4 {
+    left: 63%;
+    top: 20%;
+    transform: translate(-50%, -50%) rotate(8deg);
+    animation-delay: 1.1s;
+}
+
+.r5 {
+    left: 77%;
+    top: 30%;
+    transform: translate(-50%, -50%) rotate(-8deg);
+    animation-delay: 1.4s;
+}
+
+.r6 {
+    left: 31%;
+    top: 38%;
+    transform: translate(-50%, -50%) rotate(5deg);
+    animation-delay: 1.7s;
+}
+
+.r7 {
+    left: 50%;
+    top: 32%;
+    transform: translate(-50%, -50%) rotate(-5deg);
+    animation-delay: 2s;
+}
+
+.r8 {
+    left: 69%;
+    top: 38%;
+    transform: translate(-50%, -50%) rotate(7deg);
+    animation-delay: 2.3s;
+}
+
+@keyframes roseAppear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0) rotate(90deg);
+    }
+
+    70% {
+        transform: translate(-50%, -50%) scale(1.1) rotate(-5deg);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotate(0);
+    }
+}
+
+/* Movimiento suave */
+
+.rose {
+    animation:
+        roseAppear 1.8s ease backwards,
+        flowerMove 5s ease-in-out infinite 3s;
+}
+
+@keyframes flowerMove {
+    0%, 100% {
+        margin-top: 0;
+    }
+
+    50% {
+        margin-top: -5px;
+    }
+}
+
+/* Envoltura */
+
+.wrapper {
+    position: absolute;
+    width: 390px;
+    height: 230px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 15;
+    filter: drop-shadow(0 12px 10px rgba(0,0,0,.5));
+}
+
+.wrapper-left,
+.wrapper-right {
+    position: absolute;
+    bottom: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.wrapper-left {
+    left: 0;
+    border-width: 0 190px 230px 0;
+    border-color: transparent #f1e2d1 transparent transparent;
+}
+
+.wrapper-right {
+    right: 0;
+    border-width: 230px 190px 0 0;
+    border-color: #ead5c2 transparent transparent transparent;
+}
+
+/* Parte central de envoltura */
+
+.wrapper-center {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 210px;
+    background:
+        linear-gradient(
+            100deg,
+            #f4e5d5,
+            #fff7ed,
+            #e5cdb8
+        );
+    clip-path: polygon(25% 0, 75% 0, 100% 100%, 0 100%);
+    z-index: 3;
+}
+
+/* Líneas de papel */
+
+.wrapper-center::before,
+.wrapper-center::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(130,80,60,.15);
+}
+
+.wrapper-center::before {
+    left: 35%;
+    transform: rotate(8deg);
+}
+
+.wrapper-center::after {
+    right: 35%;
+    transform: rotate(-8deg);
+}
+
+/* Lazo */
+
+.ribbon {
+    position: absolute;
+    left: 50%;
+    bottom: 70px;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 30px;
+    z-index: 20;
+}
+
+.ribbon-center {
+    position: absolute;
+    left: 50%;
+    top: 5px;
+    transform: translateX(-50%);
+    width: 35px;
+    height: 35px;
+    background: #7d1230;
+    border-radius: 50%;
+    box-shadow: 0 3px 8px rgba(0,0,0,.4);
+    z-index: 3;
+}
+
+.ribbon-left,
+.ribbon-right {
+    position: absolute;
+    width: 65px;
+    height: 35px;
+    background: linear-gradient(
+        135deg,
+        #b92a50,
+        #681027
+    );
+    top: 5px;
+}
+
+.ribbon-left {
+    right: 48px;
+    border-radius: 100% 10% 100% 10%;
+    transform: rotate(20deg);
+}
+
+.ribbon-right {
+    left: 48px;
+    border-radius: 10% 100% 10% 100%;
+    transform: rotate(-20deg);
+}
+
+/* Mensaje */
+
+.message {
+    position: absolute;
+    bottom: 18px;
+    z-index: 50;
+    text-align: center;
+    opacity: 0;
+    animation: messageAppear 2s ease 4s forwards;
+}
+
+.message h2 {
+    font-size: clamp(22px, 4vw, 34px);
+    font-weight: normal;
+    color: #ffdbe3;
+    text-shadow: 0 0 15px rgba(255,100,130,.7);
+}
+
+.message p {
+    margin-top: 5px;
+    font-size: 15px;
+    color: #dcb7c1;
+}
+
+@keyframes messageAppear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Brillos */
+
+.sparkle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: white;
+    transform: rotate(45deg);
+    opacity: 0;
+    animation: sparkle 3s infinite;
+    z-index: 40;
+}
+
+.sparkle::before,
+.sparkle::after {
+    content: "";
+    position: absolute;
+    background: white;
+}
+
+.sparkle::before {
+    width: 2px;
+    height: 18px;
+    left: 3px;
+    top: -5px;
+}
+
+.sparkle::after {
+    width: 18px;
+    height: 2px;
+    left: -5px;
+    top: 3px;
+}
+
+.s1 {
+    left: 24%;
+    top: 25%;
+    animation-delay: 1s;
+}
+
+.s2 {
+    left: 73%;
+    top: 23%;
+    animation-delay: 2.5s;
+}
+
+.s3 {
+    left: 48%;
+    top: 10%;
+    animation-delay: 3s;
+}
+
+.s4 {
+    left: 60%;
+    top: 34%;
+    animation-delay: 1.8s;
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0;
+        transform: rotate(45deg) scale(.3);
+    }
+
+    50% {
+        opacity: 1;
+        transform: rotate(45deg) scale(1);
+    }
+}
+
+/* Botón */
+
+.btn {
+    position: absolute;
+    right: 25px;
+    bottom: 25px;
+    z-index: 100;
+    border: 1px solid rgba(255,255,255,.3);
+    background: rgba(255,255,255,.08);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: Georgia, serif;
+    backdrop-filter: blur(8px);
+    transition: .3s;
+}
+
+.btn:hover {
+    background: rgba(255,255,255,.18);
+    transform: scale(1.05);
+}
+
+/* Corazones */
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    color: #ff5578;
+    font-size: 20px;
+    animation: floatHeart 6s linear forwards;
+    pointer-events: none;
+    z-index: 200;
+}
+
+@keyframes floatHeart {
+    0% {
+        opacity: 0;
+        transform: translateY(0) scale(.5) rotate(0);
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translateY(-110vh)
+            translateX(var(--move))
+            scale(1.5)
+            rotate(30deg);
+    }
+}
+
+/* Responsive */
+
+@media (max-width: 600px) {
+
+    .title {
+        top: 20px;
+    }
+
+    .title p {
+        font-size: 14px;
+    }
+
+    .bouquet {
+        transform: scale(.72);
+        margin-top: 20px;
+        height: 600px;
+    }
+
+    .wrapper {
+        bottom: 25px;
+    }
+
+    .message {
+        bottom: 10px;
+    }
+
+    .message h2 {
+        font-size: 22px;
+    }
+
+    .message p {
+        font-size: 13px;
+    }
+
+    .btn {
+        right: 10px;
+        bottom: 10px;
+        padding: 9px 14px;
+        font-size: 12px;
+    }
+}
+
+@media (max-height: 700px) {
+
+    .bouquet {
+        transform: scale(.65);
+        margin-top: 20px;
+    }
+
+    .title {
+        top: 10px;
+    }
+
+    .message {
+        display: none;
+    }
+}
+</style>
 </head>
 
-<body style="margin:0; overflow:hidden;">
+<body>
 
-  <!-- BOTÓN FOTO -->
-  <button onclick="tomarFoto()" 
-    style="position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
-    padding:15px 20px; font-size:16px; z-index:999; border-radius:10px;
-    background:#000; color:#fff;">
-    📸 Tomar Foto
-  </button>
+<div class="background">
+
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+    <span class="star"></span>
+
+</div>
+
+<div class="container">
+
+    <div class="title">
+        <h1>🌹 Rosas Eternas 🌹</h1>
+        <p>Un ramo que nunca pierde su belleza</p>
+    </div>
 
 
+    <div class="bouquet">
 
-  <!-- ESCENA AR -->
-  <a-scene embedded arjs>
+        <!-- Tallos -->
 
-    <a-marker id="m1" type="pattern" url="marcador.patt">
-      <a-entity position="0 0 0" rotation="280 0 0" scale="1 1 1"
-        gltf-model="regalo.glb" animation-mixer>
-      </a-entity>
-    </a-marker>
+        <div class="stem stem1"></div>
+        <div class="stem stem2"></div>
+        <div class="stem stem3"></div>
+        <div class="stem stem4"></div>
+        <div class="stem stem5"></div>
+        <div class="stem stem6"></div>
+        <div class="stem stem7"></div>
 
-    <a-marker id="m2" type="pattern" url="pattern-charizard.patt">
-      <a-entity position="0 0 0" rotation="240 0 0" scale="0.5 0.5 0.5"
-        gltf-model="charizard.glb" animation-mixer>
-      </a-entity>
-    </a-marker>
 
-    <a-marker id="m3" type="pattern" url="pattern-Imper1.patt">
-      <a-entity position="0 0 0" rotation="200 260 120" scale="5 5 5"
-        gltf-model="majin_boo.glb" animation-mixer>
-      </a-entity>
-    </a-marker>
+        <!-- Hojas -->
 
-    <a-marker id="m4" type="pattern" url="pattern-Imper2.patt">
-      <a-entity position="0.10 0.10 0.10" rotation="220 0 0" scale="0.02 0.02 0.02"
-        gltf-model="goku.glb" animation-mixer>
-      </a-entity>
-    </a-marker>
+        <div class="leaf leaf1"></div>
+        <div class="leaf leaf2"></div>
+        <div class="leaf leaf3"></div>
+        <div class="leaf leaf4"></div>
+        <div class="leaf leaf5"></div>
+        <div class="leaf leaf6"></div>
+        <div class="leaf leaf7"></div>
 
-    <a-marker id="m5" type="pattern" url="pattern-Natu1.patt">
-      <a-entity position="0 0 0" rotation="280 0 0" scale="0.5 0.5 0.5"
-        gltf-model="mario.glb" animation-mixer>
-      </a-entity>
-    </a-marker>
 
-    <a-marker id="m6" type="pattern" url="pattern-Natu2.patt">
-      <a-entity position="0 0 0" rotation="280 0 0" scale="0.09 0.09 0.09"
-        gltf-model="yoshi.glb" animation-mixer>
-      </a-entity>
-    </a-marker>
+        <!-- ROSA 1 -->
 
-    <a-marker id="m7" type="pattern" url="pattern-Redes1.patt">
-      <a-entity position="0 0 0" rotation="280 0 0" scale="0.9 0.9 0.9"
-        gltf-model="dragon.glb" animation-mixer>
-      </a-entity>
-    </a-marker>
+        <div class="rose r1">
 
-    <a-marker id="m8" type="pattern" url="pattern-Redes2.patt">
-      <a-entity position="0 0 0" rotation="180 280 70" scale="1 1 1"
-        gltf-model="one_piece.glb" animation-mixer>
-      </a-entity>
-    </a-marker>
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
 
-    <!-- VIDEOS -->
-  <a-assets>
-    <video id="vid1" src="barco.mp4" preload="auto" loop muted playsinline></video>
-    <video id="vid2" src="focos.mp4" preload="auto" loop muted playsinline></video>
-    <video id="vid3" src="peces.mp4" preload="auto" loop muted playsinline></video>
-    <video id="vid4" src="barquito.mp4" preload="auto" loop muted playsinline></video>
-  </a-assets>
+            <div class="petal inner i1"></div>
+            <div class="petal inner i2"></div>
+            <div class="petal inner i3"></div>
+            <div class="petal inner i4"></div>
+            <div class="petal inner i5"></div>
+            <div class="petal inner i6"></div>
 
-  <!-- MARCADOR 1 -->
-  <a-marker type="pattern" url="barco.patt">
-    <a-video src="#vid1" width="8" height="4.5" position="0 0 0" rotation="-90 0 0"></a-video>
-  </a-marker>
+            <div class="center"></div>
 
-  <!-- MARCADOR 2 -->
-  <a-marker type="pattern" url="focos.patt">
-    <a-video src="#vid2" width="8" height="4.5" position="0 0 0" rotation="-90 0 0"></a-video>
-  </a-marker>
+        </div>
 
-  <!-- MARCADOR 3 -->
-  <a-marker type="pattern" url="peces.patt">
-    <a-video src="#vid3" width="8" height="4.5" position="0 0 0" rotation="-90 0 0"></a-video>
-  </a-marker>
 
-  <!-- MARCADOR 4 -->
-  <a-marker type="pattern" url="barquito.patt">
-    <a-video src="#vid4" width="8" height="4.5" position="0 0 0" rotation="-90 0 0"></a-video>
-  </a-marker>
+        <!-- ROSA 2 -->
 
-    <a-entity camera></a-entity>
-  </a-scene>
+        <div class="rose r2">
+
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+
+            <div class="petal inner i1"></div>
+            <div class="petal inner i2"></div>
+            <div class="petal inner i3"></div>
+            <div class="petal inner i4"></div>
+            <div class="petal inner i5"></div>
+            <div class="petal inner i6"></div>
+
+            <div class="center"></div>
+
+        </div>
+
+
+        <!-- ROSA 3 -->
+
+        <div class="rose r3">
+
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+
+            <div class="petal inner i1"></div>
+            <div class="petal inner i2"></div>
+            <div class="petal inner i3"></div>
+            <div class="petal inner i4"></div>
+            <div class="petal inner i5"></div>
+            <div class="petal inner i6"></div>
+
+            <div class="center"></div>
+
+        </div>
+
+
+        <!-- ROSA 4 -->
+
+        <div class="rose r4">
+
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+
+            <div class="petal inner i1"></div>
+            <div class="petal inner i2"></div>
+            <div class="petal inner i3"></div>
+            <div class="petal inner i4"></div>
+            <div class="petal inner i5"></div>
+            <div class="petal inner i6"></div>
+
+            <div class="center"></div>
+
+        </div>
+
+
+        <!-- ROSA 5 -->
+
+        <div class="rose r5">
+
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+
+            <div class="petal inner i1"></div>
+            <div class="petal inner i2"></div>
+            <div class="petal inner i3"></div>
+            <div class="petal inner i4"></div>
+            <div class="petal inner i5"></div>
+            <div class="petal inner i6"></div>
+
+            <div class="center"></div>
+
+        </div>
+
+
+        <!-- ROSA 6 -->
+
+        <div class="rose r6">
+
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+
+            <div class="petal inner i1"></div>
+            <div class="petal inner i2"></div>
+            <div class="petal inner i3"></div>
+            <div class="petal inner i4"></div>
+            <div class="petal inner i5"></div>
+            <div class="petal inner i6"></div>
+
+            <div class="center"></div>
+
+        </div>
+
+
+        <!-- ROSA 7 -->
+
+        <div class="rose r7">
+
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+
+            <div class="petal inner i1"></div>
+            <div class="petal inner i2"></div>
+            <div class="petal inner i3"></div>
+            <div class="petal inner i4"></div>
+            <div class="petal inner i5"></div>
+            <div class="petal inner i6"></div>
+
+            <div class="center"></div>
+
+        </div>
+
+
+        <!-- ROSA 8 -->
+
+        <div class="rose r8">
+
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+
+            <div class="petal inner i1"></div>
+            <div class="petal inner i2"></div>
+            <div class="petal inner i3"></div>
+            <div class="petal inner i4"></div>
+            <div class="petal inner i5"></div>
+            <div class="petal inner i6"></div>
+
+            <div class="center"></div>
+
+        </div>
+
+
+        <!-- Brillos -->
+
+        <div class="sparkle s1"></div>
+        <div class="sparkle s2"></div>
+        <div class="sparkle s3"></div>
+        <div class="sparkle s4"></div>
+
+
+        <!-- Envoltura -->
+
+        <div class="wrapper">
+
+            <div class="wrapper-left"></div>
+            <div class="wrapper-right"></div>
+
+            <div class="wrapper-center"></div>
+
+            <div class="ribbon">
+
+                <div class="ribbon-left"></div>
+                <div class="ribbon-right"></div>
+                <div class="ribbon-center"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="message">
+
+        <h2>Para alguien especial ❤️</h2>
+
+        <p>
+            Porque algunas flores merecen durar para siempre.
+        </p>
+
+    </div>
+
+    <button class="btn" onclick="crearCorazones()">
+        💕 Para ti
+    </button>
+
+</div>
+
 
 <script>
-// FOTO
-function tomarFoto() {
-  const scene = document.querySelector("a-scene");
-  const video = document.querySelector("video");
-  const renderer = scene.renderer;
 
-  renderer.render(scene.object3D, scene.camera);
-  const canvasAframe = renderer.domElement;
+/* Crear corazones flotando */
 
-  if (!video || video.videoWidth === 0) {
-    alert("Espera a que cargue la cámara");
-    return;
-  }
+function crearCorazones() {
 
-  const canvasFinal = document.createElement("canvas");
-  const ctx = canvasFinal.getContext("2d");
+    for (let i = 0; i < 25; i++) {
 
-  canvasFinal.width = video.videoWidth;
-  canvasFinal.height = video.videoHeight;
+        setTimeout(() => {
 
-  ctx.drawImage(video, 0, 0, canvasFinal.width, canvasFinal.height);
-  ctx.drawImage(canvasAframe, 0, 0, canvasFinal.width, canvasFinal.height);
+            const heart = document.createElement("div");
 
-  const link = document.createElement("a");
-  link.href = canvasFinal.toDataURL("image/png");
-  link.download = "foto-ar.png";
-  link.click();
+            heart.className = "heart";
+
+            heart.innerHTML =
+                Math.random() > 0.5 ? "♥" : "♡";
+
+            heart.style.left =
+                Math.random() * 100 + "vw";
+
+            heart.style.setProperty(
+                "--move",
+                (Math.random() * 200 - 100) + "px"
+            );
+
+            heart.style.fontSize =
+                (15 + Math.random() * 25) + "px";
+
+            heart.style.animationDuration =
+                (4 + Math.random() * 4) + "s";
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+
+        }, i * 120);
+
+    }
+
 }
 
 
-</script>
-<script>
-document.querySelectorAll("a-marker").forEach(marker => {
+/* Crear algunos corazones automáticamente */
 
-  marker.addEventListener("markerFound", () => {
-    const videoEl = marker.querySelector("a-video");
-    const videoSrc = videoEl.getAttribute("src");
-    const video = document.querySelector(videoSrc);
-    if (video) video.play();
-  });
+setTimeout(() => {
 
-  marker.addEventListener("markerLost", () => {
-    const videoEl = marker.querySelector("a-video");
-    const videoSrc = videoEl.getAttribute("src");
-    const video = document.querySelector(videoSrc);
-    if (video) video.pause();
-  });
+    crearCorazones();
+
+}, 5000);
+
+
+/* Efecto al pasar el mouse sobre las rosas */
+
+document.querySelectorAll(".rose").forEach(rose => {
+
+    rose.addEventListener("mouseenter", () => {
+
+        rose.style.filter =
+            "brightness(1.25) drop-shadow(0 0 15px rgba(255,50,90,.8))";
+
+    });
+
+    rose.addEventListener("mouseleave", () => {
+
+        rose.style.filter = "none";
+
+    });
 
 });
+
 </script>
+
 </body>
 </html>
 
